@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.mailgun.org',
+	'host' => 'smtp.gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => null, 'name' => null),
+	'from' => array('address' => 'rohan.yadav0001@gmail.com', 'name' => 'Rohan Yadav'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => null,
+	'username' => 'rohan.yadav011988',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => null,
+	'password' => 'monika0124',
 
 	/*
 	|--------------------------------------------------------------------------

@@ -25,36 +25,13 @@ Route::get('/logout', array('as' => "logout", 'uses' => "RegistrationController@
 Route::get('/dashboard', array('as' => "dashboard", 'uses' => "RegistrationController@dashboard"));
 Route::get('/edit/{reg}', array('as' => "edit{reg}", 'uses' => "RegistrationController@edit"));
 Route::get('/delete/{reg}', array('as' => "delete", 'uses' => "RegistrationController@delete"));
-//Route::get('/edit/{reg}', 'RegistrationController@edit');
-//Route::get('/delete/{reg}', 'RegistrationController@delete');
-//Route::get('/login', 'RegistrationController@login');
-//Route::get('/home','RegistrationController@home');
-//Route::get('/', 'RegistrationController@index');
-//Route::get('/register', 'RegistrationController@register');
-//Route::post('/handlelogin', 'RegistrationController@handlelogin');
+Route::get('/change-password', array('as' => "change-password", 'uses' => "RegistrationController@password"));
+//Route::get('/paging', array('as' => "paging", 'uses' => "RegistrationController@paging"));
+
 // Handle form submissions.
-
-
-
-Route::get('/{squirrel}', function($squirrel)
-{
-$data['squirrel'] = $squirrel;
-
-return View::make('home', $data);
-
-});
-
-
 
 Route::post('/', array('as' => "handleRegister", 'uses' => "RegistrationController@handleRegister"));
 Route::post('/login', array('as' => "handleLogin", 'uses' => "RegistrationController@handleLogin"));
 Route::post('/edit', array('as' => "handleEdit", 'uses' => "RegistrationController@handleEdit"));
 Route::post('/delete', array('as' => "handleDelete", 'uses' => "RegistrationController@handleDelete"));
-//Route::post('/edit', 'RegistrationController@handleEdit');
-//Route::post('/delete', 'RegistrationController@handleDelete');
-//Route::post('/login', 'RegistrationController@handleLogin');
-//Route::post('/', 'RegistrationController@handleRegister');
-
-
-
-
+Route::post('/password', array('as' => "handlePassword", 'uses' => "RegistrationController@handlePassword"));

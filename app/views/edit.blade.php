@@ -6,27 +6,19 @@
 </div>
 
 <form action="<?php echo route('handleEdit'); ?>" method="post" role="form">
-    <input type="hidden" name="id" value="{{ $reg->id }}">
 
+<input type="hidden" value="{{ $reg1->id }}" name="id"/>
     <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" class="form-control" name="username" value="{{ $reg->username }}" />
+        <input type="text" class="form-control" name="username" value="{{ $reg1->username }}" />
     </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="text" class="form-control" name="password" value="{{ $reg->password }}" />
-    </div>
+
 
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="text" class="form-control" name="email" value="{{ $reg->email }}" />
+        <input type="text" class="form-control" name="email" value="{{ $reg1->email }}" />
     </div>
 
-    <div class="checkbox">
-        <label for="complete">
-            <input type="checkbox" name="complete" {{ $reg->complete ? 'checked' : '' }} /> Complete?
-        </label>
-    </div>
     <input type="submit" value="Save" class="btn btn-primary" />
     <a href="<?php echo route('dashboard'); ?>" class="btn btn-link">Cancel</a>
 </form>

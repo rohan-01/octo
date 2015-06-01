@@ -1,6 +1,8 @@
-
 @extends('layout')
 <a href="<?php echo route('logout'); ?>">Logout</a>
+<br/>
+
+<a href="<?php echo route('change-password'); ?>">Change Password</a>
 
 @section('content')
 <div class="page-header">
@@ -25,26 +27,30 @@
     <thead>
         <tr>
             <th>User Name</th>
-            <th>Password</th>
             <th>Email</th>
-            <th>Complete</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($reg as $reg)
+        @foreach($reg as $rg)
         <tr>
-            <td>{{ $reg->username }}</td>
-            <td>{{ $reg->password }}</td>
-            <td>{{ $reg->email }}</td>
-            <td>{{ $reg->complete ? 'Yes' : 'No' }}</td>
+            <td>{{ $rg->username }}</td>
+            <td>{{ $rg->email }}</td>
             <td>
-                <a href="{{ action('RegistrationController@edit', $reg->id) }}" class="btn btn-default">Edit</a>
-                <a href="{{ action('RegistrationController@delete', $reg->id) }}" class="btn btn-danger">Delete</a>
+                <a href="{{ action('RegistrationController@edit', $rg->id) }}" class="btn btn-default">Edit</a>
+                <a href="{{ action('RegistrationController@delete', $rg->id) }}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
+<div class="pagination"> 
+    
+   {{ $reg->links() }} 
+
+</div>
+
+
 @endif 
+
 @stop

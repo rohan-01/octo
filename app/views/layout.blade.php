@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Home Page for Registration</title>
+        <title>Registration System</title>
 
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
     </head>

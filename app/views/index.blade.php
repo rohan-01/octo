@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="page-header">
-    <h1>Index Page</h1>
+    <h1>Registration Page</h1>
 </div>
 
 
@@ -28,13 +28,7 @@
         <label for="email">Email</label>
         <input type="text" class="form-control" name="email" value="{{ Input::old('email') }}" />
     </div>
-
-    <div class="checkbox">
-        <label for="complete">
-            <input type="checkbox" name="complete"/> Complete?
-        </label>
-    </div>
     <input type="submit" value="Register" class="btn btn-primary" />
-    <a href="<?php echo route('main'); ?>" class="btn btn-link">Cancel</a>
+    <a href="<?php echo route('main'); ?>" class="btn btn-primary">Cancel</a>
 </form>
 @stop

@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('content')
+<div class="page-header">
+    <h1>Login Page</h1>
+</div>
 
 @if ($errors->has())
 <div class="alert alert-danger">
@@ -23,3 +27,4 @@
     <a href="<?php echo route('main'); ?>" class="btn btn-link">Cancel</a>
 
 </form>
+@stop

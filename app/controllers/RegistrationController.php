@@ -4,6 +4,8 @@
 
 Class RegistrationController extends BaseController {
 
+    private $pagination = 5;
+
     public function index() {
 
         return View::make('index');
@@ -11,9 +13,13 @@ Class RegistrationController extends BaseController {
 
     public function dashboard() {
         //show listing of registrations
-        $reg = Registration::all();
+        
+        //return View::make('dashboard', compact('reg'));
+        //$reg = Registration::all();
+        $reg = Registration::paginate($this->pagination);
 
-        return View::make('dashboard', compact('reg'));
+        return View::make('dashboard')
+                        ->with('reg', $reg);
     }
 
     public function handleRegister() {
@@ -23,8 +29,7 @@ Class RegistrationController extends BaseController {
         $rules = array(
             'username' => 'required',
             'password' => 'required',
-            'email' => 'required|email',
-            'complete' => 'required'
+            'email' => 'required|email'
         );
 
         $validator = Validator::make(Input::all(), $rules);
@@ -39,9 +44,9 @@ Class RegistrationController extends BaseController {
             $reg->username = Input::get('username');
             $reg->password = Hash::make(Input::get('password'));
             $reg->email = Input::get('email');
-            $reg->complete = Input::has('complete');
             $reg->save();
 
+            // Code for Sending Mail
             //Mail::send('users.mails.welcome', array('username' => Input::get('username')), function($message) {
             //$message->to(Input::get('email'), Input::get('username'))->subject('Welcome to the Laravel 4 Auth App!');
             //});
@@ -64,8 +69,6 @@ Class RegistrationController extends BaseController {
             'password' => 'required'
         );
 
-
-        //echo dd('fhfgfgf');
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
@@ -75,7 +78,7 @@ Class RegistrationController extends BaseController {
                             ->withInput(Input::except('password'));
         } else {
 
-            // create our user data for the authentication
+            // create user data for the authentication
 
             $userdata = array(
                 'username' => Input::get('username'),
@@ -83,13 +86,8 @@ Class RegistrationController extends BaseController {
             );
 
             //echo "<pre>"; print_r($userdata);
-            //echo !Auth::attempt(array('email' => 'sum@ymail.com', 'password' => Input::get('password')));
-            //exit;
-            // attempt to do the login
-            //print_r(Auth::attempt($userdata)); exit;
 
             if (Auth::attempt($userdata)) {
-
 
                 $name = Input::get('username');
 
@@ -99,11 +97,10 @@ Class RegistrationController extends BaseController {
 
                 return Redirect::route('dashboard');
             } else {
-                //echo 'ur  here';   exit;
-                // validation not successful, send back to form 
-                //$var = Session::get('userdata');
-                //print_r(Session::get('username')); exit;   
-                return Redirect::route('login');
+
+                return Redirect::back()
+                                ->withInput(Input::except('password'))
+                                ->withErrors(['Username or password is incorrect']);
             }
         }
 
@@ -125,19 +122,19 @@ Class RegistrationController extends BaseController {
         return View::make('home');
     }
 
-    public function edit(Registration $reg) {
+    public function edit(Registration $reg1) {
         //show the registration edit page 
-        return View::make('edit', compact('reg'));
+        //return View::make('edit', compact('reg'));
+        
+        return View::make('edit', compact('reg1'));
     }
 
     public function handleEdit() {
         // Handle edit form submission.
-
+       
         $reg = Registration::findOrFail(Input::get('id'));
         $reg->username = Input::get('username');
-        $reg->password = Input::get('password');
         $reg->email = Input::get('email');
-        $reg->complete = Input::has('complete');
         $reg->save();
 
         return Redirect::route('dashboard');
@@ -158,4 +155,52 @@ Class RegistrationController extends BaseController {
         return Redirect::route('dashboard');
     }
 
+    public function password() {
+
+        return View::make('change-password');
+    }
+
+    public function handlePassword() {
+
+        $rules = array(
+            'old_password' => 'required',
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required'
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the validation
+        if ($validator->fails()) {
+            return Redirect::route('change-password')
+                            ->withErrors($validator)
+                            ->withInput();
+        } else {
+
+            $user = User::find(Auth::user()->id);
+
+            $old_password = Input::get('old_password');
+            $new_password = Input::get('password');
+
+
+            if (Hash::check($old_password, $user->getAuthPassword())) {
+                $user->password = Hash::make($new_password);
+
+                if ($user->save()) {
+                    return View::make('change-password')
+                                    ->with('success', 'Your Password is Reset');
+                }
+            } else {
+                return Redirect::route('change-password')
+                                ->withErrors('Your old Password is incorrect');
+            }
+        }
+        return Redirect::route('change-password')
+                        ->withErrors('Your Password Could not be Changed');
+    }
+
+    //public function paging() {
+    //$reg = Registration::paginate(5);
+    //return View::make('dashboard')->with('reg', $reg);
+    //}
 }
